@@ -1,0 +1,17 @@
+deployServer:
+  stage: deploy
+  tags:
+    - innerview
+  cache:
+    key:
+      files:
+        - package-lock.json
+      prefix: npm
+    paths:
+      - node_modules/
+  script:
+    - npm install
+    - npm run build
+    - scp -r dist/* innerview@211.169.231.242:/var/www/annual
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
